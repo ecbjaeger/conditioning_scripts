@@ -6,24 +6,20 @@ import adafruit_mlx90640
 
 i2c = busio.I2C(board.SCL, board.SDA, frequency=800000)
 
+start_time = time.time()
 mlx = adafruit_mlx90640.MLX90640(i2c)
 print("MLX addr detected on I2C", [hex(i) for i in mlx.serial_number])
 
 mlx.refresh_rate = adafruit_mlx90640.RefreshRate.REFRESH_2_HZ
 
-frame = [0] * 768
-while True:
-    try:
-        mlx.getFrame(frame)
-    except ValueError:
-        # these happen, no biggie - retry
-        continue
+def thermal_cam():
+    frame = [1] * 768
+    mlx.getFrame(frame)
+    mean_temp = np.mean(frame)
+    return(mean_temp)
 
-    for h in range(24):
-        for w in range(32):
-            t = frame[h*32 + w]
-            mean_temp = sum(np.mean(t))/w
-            print(mean_temp)
-        print()
-print()
+reading_length = float(input("Reading Length: "))
 
+while (start_time - time.time()) < reading_length:
+    print(thermal_cam())
+    time.sleep(1)
