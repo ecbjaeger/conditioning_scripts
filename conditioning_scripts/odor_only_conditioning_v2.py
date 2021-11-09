@@ -74,23 +74,23 @@ with open(temperature_recording, "a") as log:
             clean_air.off()
            # input_status == 'air'
     
-##HEAT ONLY VERSION, NO PHASE 2 #Trial phase 2: Odor on, no heat
-       # if frame_number > 1800:
-           # clean_air.on()
-           # odor.off()
+    #Trial phase 2: Odor on, no heat
+        if frame_number > 1800:
+            clean_air.on()
+            odor.off()
            # input_status == 'odor'
     
-    #Trial phase 3: Heat on until end of trial
-        if temp < set_temp and relay_status == 'off' and frame_number >= 3600:
-            relay.on()
-            print("Relay on")
-            relay_status == 'on'
-            time.sleep(1)
-            relay.off()
-            print("Relay off")
-            relay_status == 'off'
-            time.sleep(1)
-            print(read_temp())
+##ODOR ONLY VERSION, NO PHASE 3    #Trial phase 3: Odor on until end of trial
+       # if temp < set_temp and relay_status == 'off' and frame_number >= 3600:
+        #    relay.on()
+        #    print("Relay on")
+        #    relay_status == 'on'
+        #    time.sleep(1)
+        #    relay.off()
+        #    print("Relay off")
+        #    relay_status == 'off'
+        #    time.sleep(1)
+        #    print(read_temp())
 
         if frame_number >= 21000:
             camera.stop_recording()
